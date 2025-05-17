@@ -104,6 +104,10 @@ vim.o.number = true
 --  Experiment for yourself to see if you like it!
 vim.o.relativenumber = true
 
+-- Set default tab behavior
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.o.mouse = 'a'
 
