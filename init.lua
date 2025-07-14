@@ -107,6 +107,7 @@ vim.o.relativenumber = true
 -- Set default tab behavior
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
+vim.o.expandtab = true  -- Use spaces instead of tabs by default
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.o.mouse = 'a'
@@ -251,7 +252,25 @@ rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-  'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
+  { 
+    'NMAC427/guess-indent.nvim',
+    config = function()
+      require('guess-indent').setup {
+        auto_cmd = true,  -- Set to true to automatically run :GuessIndent on BufEnter
+        override_editorconfig = false, -- Set to true to override settings from .editorconfig
+        filetype_exclude = {  -- Filetypes to ignore
+          'netrw',
+          'tutor',
+        },
+        buftype_exclude = {  -- Buffer types to ignore
+          'help',
+          'nofile',
+          'terminal',
+          'prompt',
+        },
+      }
+    end,
+  },
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
