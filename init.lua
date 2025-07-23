@@ -129,6 +129,17 @@ vim.o.breakindent = true
 -- Save undo history
 vim.o.undofile = true
 
+-- Autosave configuration
+vim.api.nvim_create_autocmd({ 'TextChanged', 'TextChangedI', 'InsertLeave' }, {
+  desc = 'Autosave on text change',
+  group = vim.api.nvim_create_augroup('autosave', { clear = true }),
+  callback = function()
+    if vim.bo.modified and vim.bo.buftype == '' and vim.fn.expand('%') ~= '' then
+      vim.cmd('silent write')
+    end
+  end,
+})
+
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 vim.o.ignorecase = true
 vim.o.smartcase = true
