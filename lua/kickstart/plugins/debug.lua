@@ -76,6 +76,28 @@ return {
       end,
       desc = 'Debug: See last session result.',
     },
+    {
+      '<leader>dr',
+      function()
+        local dap = require('dap')
+        local configs = dap.configurations.go or {}
+        if #configs == 0 then
+          print('No debug configurations found')
+          return
+        end
+        vim.ui.select(configs, {
+          prompt = 'Select debug configuration:',
+          format_item = function(config)
+            return config.name or 'Unnamed'
+          end,
+        }, function(config)
+          if config then
+            dap.run(config)
+          end
+        end)
+      end,
+      desc = 'Debug: Run configuration',
+    },
   },
   config = function()
     local dap = require 'dap'
@@ -144,5 +166,16 @@ return {
         detached = vim.fn.has 'win32' == 0,
       },
     }
+
+    -- Load launch.json configurations from .vscode/launch.json
+    require('dap.ext.vscode').load_launchjs(nil, { go = { 'go' } })
+    
+    -- Debug: print loaded configurations
+    vim.defer_fn(function()
+      print("Loaded Go configurations:")
+      for i, config in ipairs(dap.configurations.go or {}) do
+        print(i .. ". " .. (config.name or "Unnamed"))
+      end
+    end, 1000)
   end,
 }
