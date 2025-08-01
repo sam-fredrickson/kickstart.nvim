@@ -20,8 +20,8 @@ return {
   opts = {
     workspaces = {
       {
-        name = "notes",
-        path = "~/Documents/notes/notes",
+        name = "personal",
+        path = "~/vaults/personal",
       },
     },
     -- see below for full list of options 👇
